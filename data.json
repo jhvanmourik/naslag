@@ -1,0 +1,104 @@
+{
+  "longen": {
+    "title": "Longen",
+    "icon": "🫁",
+    "color": "#4a7fa5",
+    "tabs": {
+      "COPD": {
+        "type": "files",
+        "items": [
+          { "title": "COPD en spirometrie", "src": "docs/longen/copd-en-spiro.pdf" },
+          { "title": "COPD controles spirometrie", "src": "docs/longen/copd-controles-spirometrie.pdf" },
+          { "title": "COPD zuurstof", "src": "docs/longen/copd-zuurstof.pdf" },
+          { "title": "Spirometrie techniek", "src": "docs/longen/spirometrie-techniek.pdf" }
+        ]
+      },
+      "Astma": {
+        "type": "files",
+        "items": [
+          { "title": "Diagnose astma", "src": "docs/longen/diagnose-astma.pdf" },
+          { "title": "Diagnose astma en medicatie", "src": "docs/longen/diagnose-astma-en-medicatie.pdf" },
+          { "title": "Kind met astma", "src": "docs/longen/kind-met-astma.pdf" },
+          { "title": "Exacerbatie astma kind en volwassene", "src": "docs/longen/exacerbatie-astma-kind-en-volwassene.pdf" },
+          { "title": "Inhalatiemedicatie Novartis", "src": "docs/longen/inhalatiemedicatie-novartis.pdf" },
+          { "title": "Inhalatoren Kennemerland", "src": "docs/longen/inhalatoren-kennermerland.pdf" }
+        ]
+      },
+      "Hoest": {
+        "type": "files",
+        "items": [
+          { "title": "Hoest", "src": "docs/longen/hoest.pdf" },
+          { "title": "Chronische hoest", "src": "docs/longen/chronische-hoest.pdf" },
+          { "title": "Chronische hoest — NTvG schema", "src": "docs/longen/chronische-hoest-ntvgschema.pdf" },
+          { "title": "Chronische hoestklachten stroomschema", "src": "docs/longen/chronische-hoestklachten-stroomschema.pdf" },
+          { "title": "ACE-hoest", "src": "docs/longen/ace-hoest.pdf" },
+          { "title": "Flutter (hoesttechniek)", "src": "docs/longen/flutter.pdf" },
+          { "title": "Kinkhoest", "src": "docs/longen/kinkhoest.pdf" }
+        ]
+      },
+      "Infecties": {
+        "type": "files",
+        "items": [
+          { "title": "RSV", "src": "docs/longen/rsv.pdf" },
+          { "title": "Tuberculose", "src": "docs/longen/tuberculose.pdf" },
+          { "title": "Q-koorts", "src": "docs/longen/q-koorts.pdf" },
+          { "title": "Pneumokokkenvaccin", "src": "docs/longen/pneumokokkenvaccin.pdf" }
+        ]
+      },
+      "Overig": {
+        "type": "files",
+        "items": [
+          { "title": "D-dimeer vals negatief", "src": "docs/longen/d-dimeer-vals-negatief.pdf" },
+          { "title": "Massale longbloeding", "src": "docs/longen/massale-longbloeding.pdf" },
+          { "title": "Handreiking massale longbloeding", "src": "docs/longen/handreiking-bij-risico-op-acute-massale-longbloeding.pdf" },
+          { "title": "Koolmonoxide", "src": "docs/longen/koolmonoxide.pdf" },
+          { "title": "Chloor en ammoniak", "src": "docs/longen/chloor-en-ammoniak.pdf" }
+        ]
+      }
+    }
+  },
+  "neurologie": {
+    "title": "Neurologie",
+    "icon": "🧠",
+    "color": "#8b6bb0",
+    "tabs": {
+      "Stroomschemas": {
+        "type": "images",
+        "items": [
+          { "title": "Hoofdtrauma — stroomschema kinderen & volwassenen", "src": "docs/neurologie/StroomschemaHoofdtrauma.png" }
+        ]
+      },
+      "Links": {
+        "type": "links",
+        "items": [
+          { "title": "Thuisarts — Hersenschudding", "url": "https://www.thuisarts.nl/hersenschudding", "icon": "🔗" }
+        ]
+      }
+    }
+  },
+  "nieren": {
+    "title": "Nieren",
+    "icon": "🫘",
+    "color": "#c4784a",
+    "tabs": {
+      "Stroomschemas": {
+        "type": "images",
+        "items": [
+          { "title": "Chronische nierschade — diagnostisch stroomschema", "src": "docs/nieren/nierschadestroomschema.jpg" }
+        ]
+      },
+      "Zakkaartjes": {
+        "type": "images",
+        "items": [
+          { "title": "Nierschade — stadia en behandeling", "src": "docs/nieren/nierschadestadium.jpg" }
+        ]
+      },
+      "Links": {
+        "type": "links",
+        "items": [
+          { "title": "Thuisarts — Chronische nierschade", "url": "https://www.thuisarts.nl/nierschade", "icon": "🔗" }
+        ]
+      }
+    }
+  }
+}
