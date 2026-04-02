@@ -679,13 +679,14 @@ async function loadData() {
 function renderTiles() {
     const container = document.getElementById('tiles-container');
     container.innerHTML = Object.entries(categories).map(([key, cat]) => {
-        const count = Object.values(cat.tabs).reduce((sum, tab) => sum + tab.items.length, 0);
+        var count = cat.tabs ? Object.values(cat.tabs).reduce((sum, tab) => sum + tab.items.length, 0) : null;
+        var countLabel = count !== null ? count + ' item' + (count !== 1 ? 's' : '') : 'Naslagwerk ↗';
         var action = cat.url ? 'window.location.href=\'' + cat.url + '\'' : 'showCategory(\'' + key + '\')';
-return '<div class="tile" style="--tile-color:' + cat.color + '" onclick="' + action + '">' +
+        return '<div class="tile" style="--tile-color:' + cat.color + '" onclick="' + action + '">' +
             '<style>.tile[style*="' + cat.color + '"]::before { background: ' + cat.color + '; }</style>' +
             '<span class="tile-icon">' + cat.icon + '</span>' +
             '<span class="tile-title">' + cat.title + '</span>' +
-            '<span class="tile-count">' + count + ' item' + (count !== 1 ? 's' : '') + '</span>' +
+            '<span class="tile-count">' + countLabel + '</span>' +
             '</div>';
     }).join('');
 }
@@ -697,6 +698,7 @@ function buildSearchIndex() {
     const index = [];
     for (const [catKey, cat] of Object.entries(categories)) {
         index.push({ title: cat.title, category: cat.title, catKey, tabName: null, type: 'category' });
+        if (!cat.tabs) continue;
         for (const [tabName, tab] of Object.entries(cat.tabs)) {
             for (const item of tab.items) {
                 index.push({ title: item.title, category: cat.title, catKey, tabName, type: tab.type });
