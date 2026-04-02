@@ -1,1 +1,642 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Longgeneeskunde — Naslagwerk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+:root {
+  --blue:        #1a56a0;
+  --blue-dark:   #123f7a;
+  --blue-light:  #e8f0fb;
+  --green:       #1a7a4a;
+  --green-light: #e6f4ed;
+  --orange:      #b85500;
+  --orange-light:#fff0e0;
+  --g50:  #f8f9fa;
+  --g100: #f0f2f5;
+  --g200: #e2e8f0;
+  --g300: #cbd5e1;
+  --g400: #94a3b8;
+  --g600: #475569;
+  --g800: #1e293b;
+  --accent: #2a6b5a;
+  --accent-light: #e8f0ed;
+  --sidebar: 230px;
+  --header:  58px;
+  --radius: 8px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.10);
+  --shadow-lg: 0 16px 40px rgba(0,0,0,.18);
+  --ease: 0.15s ease;
+}
+
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--g100);
+  color: var(--g800);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ── */
+header {
+  height: var(--header);
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  gap: 14px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,.25);
+  z-index: 200;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255,255,255,.85);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: rgba(255,255,255,.12);
+  transition: background var(--ease), color var(--ease);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.back-btn:hover { background: rgba(255,255,255,.22); color: #fff; }
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+  white-space: nowrap;
+  letter-spacing: -.2px;
+}
+
+.divider {
+  color: rgba(255,255,255,.35);
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.search-wrap {
+  flex: 1;
+  max-width: 460px;
+  position: relative;
+}
+
+#search {
+  width: 100%;
+  padding: 7px 12px 7px 34px;
+  border: none;
+  border-radius: 20px;
+  background: rgba(255,255,255,.16);
+  color: #fff;
+  font-family: inherit;
+  font-size: 13.5px;
+  outline: none;
+  transition: background var(--ease);
+}
+
+#search::placeholder { color: rgba(255,255,255,.55); }
+#search:focus        { background: rgba(255,255,255,.26); }
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255,255,255,.65);
+  pointer-events: none;
+}
+
+#result-count {
+  margin-left: auto;
+  color: rgba(255,255,255,.65);
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+
+/* ── Layout ── */
+.layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ── Sidebar ── */
+aside {
+  width: var(--sidebar);
+  background: #fff;
+  border-right: 1px solid var(--g200);
+  overflow-y: auto;
+  flex-shrink: 0;
+  padding: 14px 0 20px;
+}
+
+.filter-section {
+  padding: 0 10px 14px;
+  border-bottom: 1px solid var(--g200);
+  margin-bottom: 10px;
+}
+
+.filter-section:last-child { border-bottom: none; margin-bottom: 0; }
+
+.filter-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--g400);
+  padding: 0 6px;
+  margin-bottom: 5px;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 5px 8px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--g600);
+  text-align: left;
+  transition: background var(--ease), color var(--ease);
+  margin-bottom: 1px;
+  gap: 6px;
+}
+
+.filter-btn .label { flex: 1; }
+.filter-btn:hover { background: var(--g100); }
+
+.filter-btn.active {
+  background: var(--accent-light);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.filter-badge {
+  background: var(--g200);
+  color: var(--g600);
+  border-radius: 10px;
+  padding: 1px 6px;
+  font-size: 11px;
+  min-width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.filter-btn.active .filter-badge {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ── Main ── */
+main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
+  gap: 13px;
+  align-content: start;
+}
+
+/* ── Card ── */
+.card {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 15px 16px;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  transition: box-shadow var(--ease), transform var(--ease), border-color var(--ease);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.card-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--g800);
+  line-height: 1.35;
+  flex: 1;
+}
+
+.type-badge {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 12px;
+  line-height: 1.4;
+}
+
+.type-notitie      { background: var(--green-light); color: var(--green); }
+.type-stroomschema { background: var(--blue-light);  color: var(--blue);  }
+.type-richtlijn    { background: var(--orange-light); color: var(--orange); }
+
+.card-desc {
+  font-size: 12px;
+  color: var(--g600);
+  line-height: 1.45;
+  flex: 1;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--g100);
+  color: var(--g600);
+  border: 1px solid var(--g200);
+}
+
+.card-cta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 500;
+  opacity: 0;
+  transition: opacity var(--ease);
+}
+
+.card:hover .card-cta { opacity: 1; }
+
+/* ── Empty state ── */
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 70px 20px;
+  color: var(--g400);
+  font-size: 14px;
+}
+
+.empty svg { margin-bottom: 12px; opacity: .4; }
+
+/* ── Modal ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,.55);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  backdrop-filter: blur(3px);
+  animation: fadeIn .15s ease;
+}
+
+.modal-overlay.open { display: flex; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modal {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 920px;
+  height: 92vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: slideUp .18s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(12px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.modal-bar {
+  display: flex;
+  align-items: center;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--g200);
+  gap: 10px;
+  flex-shrink: 0;
+  background: var(--g50);
+}
+
+#modal-type-badge { flex-shrink: 0; }
+
+.modal-title {
+  flex: 1;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--g800);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.modal-tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 13px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background var(--ease), color var(--ease);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-newtab {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-newtab:hover { background: #1e5244; }
+
+.btn-close {
+  background: var(--g200);
+  color: var(--g600);
+  font-size: 16px;
+  padding: 5px 11px;
+}
+
+.btn-close:hover { background: var(--g300); color: var(--g800); }
+
+#modal-frame {
+  flex: 1;
+  border: none;
+  width: 100%;
+  background: var(--g100);
+}
+
+mark {
+  background: #fef08a;
+  border-radius: 2px;
+  padding: 0 1px;
+  color: inherit;
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--g300); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--g400); }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="back-btn" href="/">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+    Naslagwerk
+  </a>
+  <span class="divider">|</span>
+  <div class="logo">🫁 Longgeneeskunde</div>
+
+  <div class="search-wrap">
+    <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    <input type="search" id="search" placeholder="Zoek notitie, thema of trefwoord…" autocomplete="off" spellcheck="false">
+  </div>
+
+  <span id="result-count"></span>
+</header>
+
+<div class="layout">
+  <aside id="sidebar"></aside>
+  <main>
+    <div class="cards-grid" id="grid"></div>
+  </main>
+</div>
+
+<div class="modal-overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-bar">
+      <span class="type-badge" id="modal-badge"></span>
+      <span class="modal-title" id="modal-title"></span>
+      <div class="modal-tags" id="modal-tags"></div>
+      <a class="btn btn-newtab" id="btn-newtab" href="#" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/>
+          <line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+        Nieuw tabblad
+      </a>
+      <button class="btn btn-close" id="btn-close">✕</button>
+    </div>
+    <iframe id="modal-frame" title="PDF weergave"></iframe>
+  </div>
+</div>
+
+<script>
+const notes = [
+  { file: '../docs/longen/ACE-hoest.pdf',                                         title: 'ACE-hoest',                              thema: ['hoest', 'medicatie'],           type: 'notitie',      desc: 'Hoest als bijwerking van ACE-remmers — herkenning en beleid' },
+  { file: '../docs/longen/Chloor-en-ammoniak.pdf',                                title: 'Chloor en Ammoniak',                     thema: ['intoxicatie'],                  type: 'notitie',      desc: 'Inhalatie-intoxicaties met chloor of ammoniak' },
+  { file: '../docs/longen/Chronische-hoest-NTVGschema.pdf',                       title: 'Chronische hoest — NTvG schema',         thema: ['hoest'],                        type: 'stroomschema', desc: 'Diagnostisch stroomschema chronische hoest uit het NTvG' },
+  { file: '../docs/longen/Chronische-hoest.pdf',                                  title: 'Chronische hoest',                       thema: ['hoest'],                        type: 'notitie',      desc: 'Aanpak en differentiaaldiagnose bij chronische hoest' },
+  { file: '../docs/longen/chronische-hoestklachten-stroomschema.pdf',             title: 'Chronische hoestklachten stroomschema',  thema: ['hoest'],                        type: 'stroomschema', desc: 'Beslisboom bij chronische hoestklachten' },
+  { file: '../docs/longen/COPD-Controles-spirometrie.pdf',                        title: 'COPD controles & spirometrie',           thema: ['copd', 'spirometrie'],          type: 'notitie',      desc: 'Controlebeleid COPD met spirometrische criteria' },
+  { file: '../docs/longen/Copd-en-spiro.pdf',                                     title: 'COPD en spirometrie',                    thema: ['copd', 'spirometrie'],          type: 'notitie',      desc: 'ROE-systematiek, ernst van obstructie, reversibiliteit en variabiliteit' },
+  { file: '../docs/longen/COPD zuurstof.pdf',                                     title: 'COPD & zuurstof',                        thema: ['copd'],                         type: 'notitie',      desc: 'Zuurstoftherapie bij COPD: indicaties en beleid' },
+  { file: '../docs/longen/D-dimeer-vals-negatief.pdf',                            title: 'D-dimeer vals negatief',                 thema: ['diagnostiek'],                  type: 'notitie',      desc: 'Situaties waarin D-dimeer vals negatief kan zijn' },
+  { file: '../docs/longen/Diagnose-astma-en-medicatie.pdf',                       title: 'Diagnose astma & medicatie',             thema: ['astma', 'medicatie'],           type: 'notitie',      desc: 'Stappenplan diagnose astma en medicamenteuze behandeling' },
+  { file: '../docs/longen/Diagnose-astma.pdf',                                    title: 'Diagnose astma',                         thema: ['astma'],                        type: 'stroomschema', desc: 'Diagnostisch stroomschema voor astma' },
+  { file: '../docs/longen/exacerbatie-astma-kind-en-volwassene.pdf',              title: 'Exacerbatie astma — kind & volwassene',  thema: ['astma', 'pediatrie', 'spoed'],  type: 'stroomschema', desc: 'Beleid bij acute exacerbatie astma bij kind en volwassene' },
+  { file: '../docs/longen/Flutter.pdf',                                           title: 'Flutter (PEP-therapie)',                 thema: ['overig'],                       type: 'notitie',      desc: 'Gebruik van de flutter bij slijmretentie en PEP-therapie' },
+  { file: '../docs/longen/Handreiking bij risico op acute massale longbloeding.pdf', title: 'Handreiking massale longbloeding',    thema: ['longbloeding', 'spoed'],        type: 'richtlijn',    desc: 'Praktische handreiking bij (risico op) acute massale longbloeding' },
+  { file: '../docs/longen/Hoest.pdf',                                             title: 'Hoest',                                  thema: ['hoest'],                        type: 'notitie',      desc: 'Algemeen overzicht hoest: oorzaken, aanpak en beleid' },
+  { file: '../docs/longen/Inhalatiemedicatie-novartis.pdf',                       title: 'Inhalatiemedicatie Novartis',            thema: ['astma', 'medicatie'],           type: 'notitie',      desc: 'Overzicht inhalatiemedicatie Novartis' },
+  { file: '../docs/longen/Inhalatoren-kennermerland.pdf',                         title: 'Inhalatoren Kennemerland',               thema: ['astma', 'medicatie'],           type: 'notitie',      desc: 'Inhalatoren overzicht regio Kennemerland' },
+  { file: '../docs/longen/Kind-met-astma.pdf',                                    title: 'Kind met astma',                         thema: ['astma', 'pediatrie'],           type: 'notitie',      desc: 'Astmabehandeling en -begeleiding bij kinderen' },
+  { file: '../docs/longen/kinkhoest.pdf',                                         title: 'Kinkhoest',                              thema: ['infectie', 'hoest'],            type: 'notitie',      desc: 'Diagnose en beleid bij kinkhoest (Bordetella pertussis)' },
+  { file: '../docs/longen/Koolmonoxide.pdf',                                      title: 'Koolmonoxide',                           thema: ['intoxicatie', 'spoed'],         type: 'notitie',      desc: 'CO-vergiftiging: herkenning, ernst en spoedbeleid' },
+  { file: '../docs/longen/massale-longbloeding.pdf',                              title: 'Massale longbloeding',                   thema: ['longbloeding', 'spoed'],        type: 'stroomschema', desc: 'Stroomschema bij massale longbloeding' },
+  { file: '../docs/longen/pneumokokkenvaccin.pdf',                                title: 'Pneumokokkenvaccin',                     thema: ['infectie', 'preventie'],        type: 'notitie',      desc: 'Indicaties, doelgroepen en schema pneumokokkenvaccinatie' },
+  { file: '../docs/longen/Q-koorts.pdf',                                          title: 'Q-koorts',                               thema: ['infectie'],                     type: 'notitie',      desc: 'Epidemiologie, diagnose en behandeling Q-koorts (Coxiella burnetii)' },
+  { file: '../docs/longen/RSV.pdf',                                               title: 'RSV',                                    thema: ['infectie', 'pediatrie'],        type: 'notitie',      desc: 'Respiratoir syncytieel virus: beleid en behandeling' },
+  { file: '../docs/longen/Spirometrie-techniek.pdf',                              title: 'Spirometrie — techniek',                 thema: ['spirometrie'],                  type: 'notitie',      desc: 'Uitvoering en kwaliteitseisen spirometrie' },
+  { file: '../docs/longen/Tuberculose.pdf',                                       title: 'Tuberculose',                            thema: ['infectie'],                     type: 'notitie',      desc: 'Diagnose en behandeling tuberculose (Mycobacterium tuberculosis)' },
+];
+
+const typeLabel  = { notitie: 'Notitie', stroomschema: 'Stroomschema', richtlijn: 'Richtlijn' };
+const themaLabel = {
+  hoest: 'Hoest', copd: 'COPD', astma: 'Astma', spirometrie: 'Spirometrie',
+  infectie: 'Infectie', longbloeding: 'Longbloeding', intoxicatie: 'Intoxicatie',
+  spoed: 'Spoed', pediatrie: 'Pediatrie', medicatie: 'Medicatie',
+  diagnostiek: 'Diagnostiek', preventie: 'Preventie', overig: 'Overig',
+};
+
+let activeType  = 'alle';
+let activeThema = 'alle';
+let query       = '';
+
+function filtered() {
+  return notes.filter(n => {
+    if (activeType  !== 'alle' && n.type !== activeType)          return false;
+    if (activeThema !== 'alle' && !n.thema.includes(activeThema)) return false;
+    if (query) {
+      const q = query.toLowerCase();
+      if (![n.title, n.desc, ...n.thema, n.type].join(' ').toLowerCase().includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+function countType(t)  { return t === 'alle' ? notes.length : notes.filter(n => n.type === t).length; }
+function countThema(t) { return t === 'alle' ? notes.length : notes.filter(n => n.thema.includes(t)).length; }
+
+function hl(text) {
+  if (!query) return text;
+  const re = new RegExp('(' + query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+function buildSidebar() {
+  const types  = ['alle', 'notitie', 'stroomschema', 'richtlijn'];
+  const themas = ['alle', ...Object.keys(themaLabel)];
+  let h = `<div class="filter-section"><div class="filter-title">Type</div>`;
+  types.forEach(t => {
+    h += `<button class="filter-btn ${activeType===t?'active':''}" data-type="${t}">
+      <span class="label">${t==='alle'?'Alle types':typeLabel[t]}</span>
+      <span class="filter-badge">${countType(t)}</span></button>`;
+  });
+  h += `</div><div class="filter-section"><div class="filter-title">Thema</div>`;
+  themas.forEach(t => {
+    const cnt = countThema(t);
+    if (!cnt) return;
+    h += `<button class="filter-btn ${activeThema===t?'active':''}" data-thema="${t}">
+      <span class="label">${t==='alle'?'Alle thema\'s':themaLabel[t]}</span>
+      <span class="filter-badge">${cnt}</span></button>`;
+  });
+  h += `</div>`;
+  const aside = document.getElementById('sidebar');
+  aside.innerHTML = h;
+  aside.querySelectorAll('[data-type]').forEach(el =>
+    el.addEventListener('click', () => { activeType = el.dataset.type; refresh(); }));
+  aside.querySelectorAll('[data-thema]').forEach(el =>
+    el.addEventListener('click', () => { activeThema = el.dataset.thema; refresh(); }));
+}
+
+function renderCards() {
+  const list = filtered();
+  document.getElementById('result-count').textContent =
+    list.length === notes.length ? `${notes.length} documenten` : `${list.length} / ${notes.length}`;
+  const grid = document.getElementById('grid');
+  if (!list.length) {
+    grid.innerHTML = `<div class="empty">
+      <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <div>Geen documenten gevonden.</div></div>`;
+    return;
+  }
+  grid.innerHTML = list.map(n => `
+    <div class="card" data-file="${n.file}" tabindex="0" role="button">
+      <div class="card-top">
+        <span class="card-title">${hl(n.title)}</span>
+        <span class="type-badge type-${n.type}">${typeLabel[n.type]}</span>
+      </div>
+      <p class="card-desc">${hl(n.desc)}</p>
+      <div class="card-tags">${n.thema.map(t=>`<span class="tag">${themaLabel[t]||t}</span>`).join('')}</div>
+      <div class="card-cta">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Bekijken
+      </div>
+    </div>`).join('');
+  grid.querySelectorAll('.card').forEach(c => {
+    const open = () => openModal(c.dataset.file);
+    c.addEventListener('click', open);
+    c.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') open(); });
+  });
+}
+
+function refresh() { buildSidebar(); renderCards(); }
+
+function openModal(file) {
+  const n = notes.find(x => x.file === file);
+  if (!n) return;
+  document.getElementById('modal-title').textContent = n.title;
+  const badge = document.getElementById('modal-badge');
+  badge.textContent = typeLabel[n.type];
+  badge.className = `type-badge type-${n.type}`;
+  document.getElementById('modal-tags').innerHTML = n.thema.map(t=>`<span class="tag">${themaLabel[t]||t}</span>`).join('');
+  document.getElementById('modal-frame').src = file;
+  document.getElementById('btn-newtab').href = file;
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('overlay').classList.remove('open');
+  setTimeout(() => { document.getElementById('modal-frame').src = ''; }, 200);
+  document.body.style.overflow = '';
+}
+
+document.getElementById('btn-close').addEventListener('click', closeModal);
+document.getElementById('overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('overlay')) closeModal();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.getElementById('search').addEventListener('input', e => {
+  query = e.target.value.trim();
+  renderCards();
+});
+
+refresh();
+</script>
+</body>
+</html>
