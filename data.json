@@ -44,11 +44,11 @@
     "icon": "🍺",
     "color": "#EAB308",
     "url": "/urologie/"
-  }
-},
+ },
   "cvrm": {
     "title": "CVRM",
     "icon": "🫀",
     "color": "#7b2d2d",
     "url": "/cvrm/"
   }
+}
